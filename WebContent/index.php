@@ -4,6 +4,8 @@ include('ClassLoader.php');
 	$req_method = $_SERVER['REQUEST_METHOD'];
 	$uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 	list($blank, $uri_object, $arg, $extraneous) = explode("/", $uri);
+	$page_amount = (array_key_exists('amount', $_GET)) ? $_GET['amount'] : null;
+	$page_number = (array_key_exists('page', $_GET)) ? $_GET['page'] : null;
 	// Eventually need paramaters for GET /business if they exist
 	
 	if(!empty($extraneous)) {
@@ -30,8 +32,8 @@ include('ClassLoader.php');
 			http_response_code(404);
 			die("invalid object or argument\n");
 		}
-		if( empty($arg) ) { 
-			$result = $factory->fetchAllBusinesses();
+		if( is_null($arg) ) { 
+			$result = $factory->fetchAllBusinesses($_GET['amount'], $_GET['page']);
 		} else {
 			$result = $factory->fetchBusiness($arg);
 		}
@@ -49,8 +51,8 @@ include('ClassLoader.php');
 	}
 	
 	function isValidArgument($arg) {
-		if( !(is_numeric($arg) || $arg >= 0) ) {
-			return false;
+		if( is_numeric($arg) && $arg >= 0 ) {
+			return true;
 		}
 		
 		return false;

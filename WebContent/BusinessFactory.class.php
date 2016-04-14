@@ -6,8 +6,10 @@ class BusinessFactory {
 		$this->db = Database::getDB();
 	}
 	
-	public function fetchAllBusinesses($amount = 50, $start = 1) {
+	public function fetchAllBusinesses($amount, $start) {
 		$business_array = array();
+		$amount = (empty($amount)) ? 50 : $amount;
+		$start = (empty($start)) ? 0 : $start;
 		
 		try {
 			$this->db = Database::getDB();
@@ -21,7 +23,7 @@ class BusinessFactory {
 			
 			$statement->closeCursor();
 		} catch (PDOException $e) {
-			die("fetchAllBusinesses failed\n");
+			die($e->getMessage() . "\n");
 		}
 		
 		return array("business" => $business_array);
