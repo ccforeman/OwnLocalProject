@@ -15,7 +15,7 @@ class BusinessFactory {
 			
 			$statement->closeCursor();
 		} catch (PDOException $e) {
-			die();
+			die("fetchAllBusinesses failed\n");
 		}
 		
 		return array("business" => $business_array);
@@ -26,12 +26,12 @@ class BusinessFactory {
 			$db = Database::getDB();
 			$query = "SELECT * FROM business WHERE id = :id";
 			$statement = $db->prepare($query);
-			$statement->bindValue(":id", $statement);
+			$statement->bindValue(":id", $id);
 			$statement->execute();
 			$business = $statement->fetchAll(PDO::FETCH_ASSOC);
 			$statement->closeCursor();
 		} catch (PDOException $e) {
-			die();
+			die("fetchBusiness failed\n");
 		}
 		
 		return $business[0];
