@@ -24,14 +24,16 @@ include('ClassLoader.php');
 	
 	
 	function action($obj, $arg) {
+		$factory = new BusinessFactory();
+		
 		if( !( isValidObject($obj) || isValidArgument($arg)) ) {
 			http_response_code(404);
 			die("invalid object or argument\n");
 		}
 		if( empty($arg) ) { 
-			$result = BusinessFactory::fetchAllBusinesses();
+			$result = $factory->fetchAllBusinesses();
 		} else {
-			$result = BusinessFactory::fetchBusiness($arg);
+			$result = $factory->fetchBusiness($arg);
 		}
 		
 		return $result;

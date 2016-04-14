@@ -1,13 +1,19 @@
 <?php
 class BusinessFactory {
+	private $db;
 	
-	public function fetchAllBusinesses() {
+	public function __construct() {
+		$this->db = Database::getDB();
+	}
+	
+	public function fetchAllBusinesses($amount = 50, $start = 1) {
 		$business_array = array();
 		
 		try {
-			$db = Database::getDB();
-			$query = "SELECT * FROM business";
-			$statement = $db->prepare($query);
+			$this->db = Database::getDB();
+			$query = "SELECT * FROM business LIMIT :amount";
+			$statement = $this->db->prepare($query);
+			$statement->bindValue(":amount", $amount);
 			$statement->execute();
 			while($business = $statement->fetch(PDO::FETCH_ASSOC)) {
 				array_push($business_array, $business);
@@ -23,9 +29,9 @@ class BusinessFactory {
 	
 	public function fetchBusiness($id) {
 		try {
-			$db = Database::getDB();
+			$this->db = Database::getDB();
 			$query = "SELECT * FROM business WHERE id = :id";
-			$statement = $db->prepare($query);
+			$statement = $this->db->prepare($query);
 			$statement->bindValue(":id", $id);
 			$statement->execute();
 			$business = $statement->fetchAll(PDO::FETCH_ASSOC);
@@ -36,5 +42,6 @@ class BusinessFactory {
 		
 		return $business[0];
 	}
+	
 }
 ?>
