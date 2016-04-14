@@ -20,7 +20,6 @@ include('ClassLoader.php');
 		default :
 			http_response_code(405);				/* 405: Request Method Invalid */
 			die("invalid request method\n");
-			break;
 	}
 	respondAsJson($returned_object);
 	
