@@ -5,9 +5,24 @@
  * 
  */
 
-function class_autoloader($class) {
-	require $class . ".class.php";
+function classAutoLoaderControllers($class) {
+	$file = 'controllers/' . $class . '.class.php';
+	
+	if(file_exists($file)) {
+		require $file;
+	}
+
 }
 
-spl_autoload_register('class_autoloader');
+function classAutoLoaderModels($class) {
+	$file = 'models/' . $class . '.class.php';
+	
+	if(file_exists($file)) {
+		require $file;
+	}
+}
+spl_autoload_register('classAutoLoaderControllers');
+spl_autoload_register('classAutoLoaderModels');
+
+
 ?>
