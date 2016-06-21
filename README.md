@@ -1,4 +1,4 @@
-# OwnLocalProject
+# SimpleBusinessAPI
 This project is a REST API that serves business data as JSON to requesting clients.
 
 # Endpoints
