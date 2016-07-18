@@ -6,14 +6,14 @@ class BusinessGateway {
 		$this->db = new Database();
 	}
 	
-	/* Get the records specified by pagification data and make sure not to exceed maximum allowed records */
-	public function fetchBusinessesList($pagification) {
+	/* Get the records specified by pagination data and make sure not to exceed maximum allowed records */
+	public function fetchBusinessesList($pagination) {
 		$business_array = array();
 		
 		$query = "SELECT * FROM business LIMIT :start, :amount";
 		$statement = $this->db->prepare($query);
-		$statement->bindValue(":start", $pagification['page_start']);
-		$statement->bindValue(":amount", min($pagification['amount'], $pagification['max']));
+		$statement->bindValue(":start", $pagination['page_start']);
+		$statement->bindValue(":amount", min($pagination['amount'], $pagination['max']));
 		$rs = $statement->execute();
 		
 		while($business = $rs->fetchArray(SQLITE3_ASSOC)) {
